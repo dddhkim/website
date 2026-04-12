@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "aetheris-lab",
+  "cleanUrls": true,
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": "./",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
