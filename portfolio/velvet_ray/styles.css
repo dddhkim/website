@@ -1,0 +1,310 @@
+:root {
+    --bg: #ffffff;
+    --bg-alt: #fdf2f2; /* Very soft pink */
+    --accent: #d4a373; /* Soft Gold/Champagne */
+    --text: #1a1a1a;
+    --text-muted: #666666;
+    --glass: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+/* --- Custom Cursor --- */
+.cursor {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease-out, background 0.3s;
+}
+
+/* --- Header --- */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--text);
+    margin-left: 3rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    opacity: 1;
+    color: var(--accent);
+}
+
+/* --- Hero Section --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at top right, var(--bg-alt), var(--bg));
+    perspective: 1200px;
+}
+
+.hero-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 4rem;
+    transform-style: preserve-3d;
+}
+
+.eyebrow {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.hero-text-content h1 {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    line-height: 1;
+    margin-bottom: 2rem;
+}
+
+.hero-text-content h1 em {
+    font-weight: 400;
+    color: var(--accent);
+}
+
+.hero-text-content p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 400px;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 1px solid var(--text);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.explore-btn:hover {
+    background: var(--text);
+    color: var(--bg);
+    transform: translateY(-5px);
+}
+
+.hero-visual-box {
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.hero-image {
+    width: 100%;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.1));
+}
+
+.float-element {
+    position: absolute;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    top: 20%;
+    right: -10%;
+    transform: translateZ(80px);
+}
+
+.bg-text {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    font-size: 12vw;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    opacity: 0.03;
+    pointer-events: none;
+}
+
+/* --- Philosophy Section --- */
+.philosophy {
+    padding: 10rem 0;
+    background-color: #fafafa;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+}
+
+.visual-side {
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.visual-side img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.glass-tag {
+    position: absolute;
+    top: 20%;
+    left: -10%;
+    background: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    font-family: var(--font-heading);
+    font-style: italic;
+    transform: translateZ(40px);
+}
+
+.text-side h2 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.step-num {
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.texture-box {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    opacity: 0.8;
+}
+
+.texture-box img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* --- Highlight Section --- */
+.highlight {
+    padding: 5rem 0 10rem;
+    text-align: center;
+}
+
+.highlight-banner {
+    background: var(--bg-alt);
+    padding: 8rem 0;
+}
+
+.highlight-banner h2 {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Footer --- */
+.footer {
+    padding: 6rem 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    letter-spacing: 5px;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+.copyright {
+    font-size: 0.7rem;
+    opacity: 0.3;
+    letter-spacing: 1px;
+}
+
+/* --- Animations --- */
+.reveal { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: 1s ease-out; }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: 1s ease-out; }
+.reveal-up { opacity: 0; transform: translateY(60px); transition: 1s ease-out; }
+
+.active { opacity: 1; transform: translate(0); }
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+    .hero-wrapper, .philosophy-grid { grid-template-columns: 1fr; }
+    .hero-text-content h1 { font-size: 4rem; }
+    .header { padding: 1.5rem 5%; }
+}
