@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateCursor();
 
-    // --- Soft 3D Tilt Effect ---
+    // --- Enhanced 3D Tilt Effect ---
     const tiltTargets = document.querySelectorAll('.tilt-target');
     
     document.addEventListener('mousemove', (e) => {
@@ -26,11 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
 
-        const rotateX = (clientY - centerY) / 40; // Softer than Architecture
-        const rotateY = (centerX - clientX) / 40;
+        // Increase tilt intensity
+        const rotateX = (clientY - centerY) / 25; 
+        const rotateY = (centerX - clientX) / 25;
 
         tiltTargets.forEach(target => {
-            target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            target.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
         });
     });
 
@@ -47,19 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // --- Scroll Parallax ---
+    // --- Enhanced Scroll Parallax ---
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         
         const floatElements = document.querySelectorAll('.float-element');
         floatElements.forEach(el => {
-            const speed = 0.2;
-            el.style.transform = `translate3d(0, ${scrolled * speed}px, 80px)`;
+            const speed = 0.4; // Faster movement for more depth
+            el.style.transform = `translate3d(0, ${scrolled * speed}px, 120px) rotate(${scrolled * 0.05}deg)`;
         });
         
         const bgText = document.querySelector('.bg-text');
         if (bgText) {
-            bgText.style.transform = `translateX(${scrolled * 0.1}px)`;
+            bgText.style.transform = `translateX(${scrolled * 0.2}px) translateZ(-100px) scale(1.1)`;
         }
     });
 
