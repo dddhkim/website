@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOMOPICO | The Master Portfolio</title>
+    
+    <!-- SEO -->
+    <meta name="description" content="AI 브랜딩부터 하이엔드 건축까지, 모모피코가 창조하는 디지털 우주를 경험하세요.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #05050a;
+            --accent: #00ffcc;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Background Particles --- */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- Main Hub --- */
+        .portal-wrapper {
+            perspective: 2000px;
+            width: 100%;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hub-container {
+            position: relative;
+            transform-style: preserve-3d;
+            width: 600px;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease-out;
+        }
+
+        .center-logo {
+            z-index: 10;
+            text-align: center;
+            transform: translateZ(50px);
+        }
+
+        .center-logo h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 15px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .center-logo p {
+            font-size: 0.8rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* --- Project Cards --- */
+        .project-node {
+            position: absolute;
+            width: 220px;
+            height: 280px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .project-node:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            transform: scale(1.1) translateZ(100px);
+            box-shadow: 0 20px 50px rgba(0, 255, 204, 0.1);
+        }
+
+        .node-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .node-info p {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- Positions (Orbiting) --- */
+        .node-1 { transform: rotateY(0deg) translateZ(400px); }
+        .node-2 { transform: rotateY(72deg) translateZ(400px); }
+        .node-3 { transform: rotateY(144deg) translateZ(400px); }
+        .node-4 { transform: rotateY(216deg) translateZ(400px); }
+        .node-5 { transform: rotateY(288deg) translateZ(400px); }
+
+        /* --- UI Elements --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 4rem;
+            display: flex;
+            gap: 2rem;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            opacity: 0.3;
+        }
+
+        .hint {
+            position: fixed;
+            bottom: 2rem;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        @media (max-width: 768px) {
+            .hub-container { transform: scale(0.6); }
+            .center-logo h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+
+    <div class="portal-wrapper">
+        <div class="hub-container" id="hub">
+            <div class="center-logo">
+                <h1>MOMOPICO</h1>
+                <p>Digital Universe Portfolio</p>
+            </div>
+
+            <!-- Orbiting Projects -->
+            <a href="https://aetheris-lab.vercel.app" class="project-node node-1" target="_blank">
+                <div class="node-info">
+                    <p>01. AI Branding</p>
+                    <h3>AETHERIS</h3>
+                </div>
+            </a>
+            <a href="https://lumiere-fragrance.vercel.app" class="project-node node-2" target="_blank">
+                <div class="node-info">
+                    <p>02. Lifestyle</p>
+                    <h3>LUMIÈRE</h3>
+                </div>
+            </a>
+            <a href="https://nexgen-agency.vercel.app" class="project-node node-3" target="_blank">
+                <div class="node-info">
+                    <p>03. IT Creative</p>
+                    <h3>NEXGEN</h3>
+                </div>
+            </a>
+            <a href="https://odyssey-architecture.vercel.app" class="project-node node-4" target="_blank">
+                <div class="node-info">
+                    <p>04. Architecture</p>
+                    <h3>ODYSSEY</h3>
+                </div>
+            </a>
+            <a href="https://velvet-ray-beauty.vercel.app" class="project-node node-5" target="_blank">
+                <div class="node-info">
+                    <p>05. K-Beauty</p>
+                    <h3>VELVET RAY</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <span>STRATEGY</span>
+        <span>DESIGN</span>
+        <span>DEVELOPMENT</span>
+    </div>
+
+    <div class="hint">MOUSE MOVE TO ROTATE UNIVERSE</div>
+
+    <script>
+        const hub = document.getElementById('hub');
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+
+        // --- 3D Rotation ---
+        let targetX = 0, targetY = 0;
+        let currentX = 0, currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            targetX = (e.clientX - window.innerWidth / 2) / 20;
+            targetY = (e.clientY - window.innerHeight / 2) / 20;
+        });
+
+        function animate() {
+            currentX += (targetX - currentX) * 0.05;
+            currentY += (targetY - currentY) * 0.05;
+            
+            hub.style.transform = `rotateY(${currentX}deg) rotateX(${-currentY}deg)`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- Particles ---
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        for(let i=0; i<150; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 1.5,
+                speedX: Math.random() * 0.2 - 0.1,
+                speedY: Math.random() * 0.2 - 0.1
+            });
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

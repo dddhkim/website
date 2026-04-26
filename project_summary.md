@@ -25,8 +25,23 @@
 - [x] **Aetheris Creative Lab** (2026-04-13)
     - **컨셉:** AI 기반 프리미엄 브랜딩 에이전시
     - **특징:** 글래스모피즘, 다이내믹 뉴럴 코어, 럭셔리 다크 모드
-    - **위치:** `website/portfolio/Aetheris_Creative_Lab/`
-- [ ] **Next Project...** (대기 중)
+    - **URL:** [https://aetheris-lab.vercel.app](https://aetheris-lab.vercel.app)
+- [x] **Lumière Studio** (2026-04-26)
+    - **컨셉:** 감성적인 라이프스타일 & 향수 브랜드
+    - **특징:** 에모셔널 타이포그래피, 소프트 크림 톤, 유체 애니메이션
+    - **URL:** [https://lumiere-fragrance.vercel.app](https://lumiere-fragrance.vercel.app)
+- [x] **NexGen Creative** (2026-04-26)
+    - **컨셉:** 혁신적 IT 크리에이티브 에이전시
+    - **특징:** 하이테크 글래스모피즘, 네온 포인트, 미래지향적 UI
+    - **URL:** [https://nexgen-agency.vercel.app](https://nexgen-agency.vercel.app)
+- [x] **ODYSSEY Architecture** (2026-04-26)
+    - **컨셉:** 럭셔리 & 지속 가능한 건축 디자인
+    - **특징:** 3D 마우스 틸트, 건축적 견고함, 딥 블랙 테마
+    - **URL:** [https://odyssey-architecture.vercel.app](https://odyssey-architecture.vercel.app)
+- [x] **VELVET RAY Beauty** (2026-04-26)
+    - **컨셉:** 프리미엄 K-뷰티 & 스킨케어
+    - **특징:** 고도화된 3D 플로팅 효과, 실크 텍스처, 화이트 & 로즈골드 테마
+    - **URL:** [https://velvet-ray-beauty.vercel.app](https://velvet-ray-beauty.vercel.app)
 
 ### 📦 GitHub (창고)
 *   **역할**: 코드(파일)를 인터넷상에 안전하게 백업 및 보관하는 클라우드 창고
