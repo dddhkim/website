@@ -11,14 +11,14 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg: #05050a;
             --accent: #00ffcc;
             --text: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03);
+            --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -38,9 +38,14 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            cursor: grab;
         }
 
-        /* --- Background Particles --- */
+        body:active {
+            cursor: grabbing;
+        }
+
+        /* --- Background --- */
         #particles {
             position: fixed;
             top: 0;
@@ -50,11 +55,20 @@
             z-index: -1;
         }
 
+        .bg-glow {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, rgba(0, 255, 204, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* --- Main Hub --- */
         .portal-wrapper {
             perspective: 2000px;
             width: 100%;
-            height: 80vh;
+            height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,47 +78,94 @@
         .hub-container {
             position: relative;
             transform-style: preserve-3d;
-            width: 600px;
-            height: 600px;
+            width: 800px;
+            height: 800px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.1s ease-out;
+            pointer-events: none;
         }
 
-        .center-logo {
-            z-index: 10;
+        /* --- Center Preview Area --- */
+        .center-display {
+            position: absolute;
+            width: 600px;
+            height: 380px;
+            z-index: 1;
+            transform: translateZ(0);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .preview-window {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 204, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .preview-img.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .default-visual {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        .default-visual.hidden {
+            opacity: 0;
+        }
+
+        .center-text {
+            margin-top: 1.5rem;
             text-align: center;
-            transform: translateZ(50px);
         }
 
-        .center-logo h1 {
-            font-size: 4rem;
+        .center-text h1 {
+            font-size: 2.5rem;
             font-weight: 900;
-            letter-spacing: 15px;
-            margin-bottom: 0.5rem;
+            letter-spacing: 10px;
             background: linear-gradient(to right, #ffffff, var(--accent));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .center-logo p {
-            font-size: 0.8rem;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            opacity: 0.5;
-        }
-
-        /* --- Project Cards --- */
+        /* --- Project Nodes --- */
         .project-node {
             position: absolute;
-            width: 220px;
-            height: 280px;
+            width: 180px;
+            height: 240px;
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1rem;
             text-decoration: none;
             color: var(--text);
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -112,48 +173,57 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            pointer-events: auto;
             overflow: hidden;
         }
 
+        .node-thumb {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
         .project-node:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-color: var(--accent);
-            transform: scale(1.1) translateZ(100px);
-            box-shadow: 0 20px 50px rgba(0, 255, 204, 0.1);
+            transform: scale(1.15) translateZ(150px) !important;
+            box-shadow: 0 20px 60px rgba(0, 255, 204, 0.2);
+            z-index: 100;
+        }
+
+        .project-node:hover .node-thumb {
+            opacity: 0.7;
         }
 
         .node-info h3 {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
         .node-info p {
-            font-size: 0.7rem;
-            opacity: 0.6;
+            font-size: 0.6rem;
+            opacity: 0.8;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         /* --- Positions (Orbiting) --- */
-        .node-1 { transform: rotateY(0deg) translateZ(400px); }
-        .node-2 { transform: rotateY(60deg) translateZ(400px); }
-        .node-3 { transform: rotateY(120deg) translateZ(400px); }
-        .node-4 { transform: rotateY(180deg) translateZ(400px); }
-        .node-5 { transform: rotateY(240deg) translateZ(400px); }
-        .node-6 { transform: rotateY(300deg) translateZ(400px); }
+        .node-1 { transform: rotateY(0deg) translateZ(550px); }
+        .node-2 { transform: rotateY(60deg) translateZ(550px); }
+        .node-3 { transform: rotateY(120deg) translateZ(550px); }
+        .node-4 { transform: rotateY(180deg) translateZ(550px); }
+        .node-5 { transform: rotateY(240deg) translateZ(550px); }
+        .node-6 { transform: rotateY(300deg) translateZ(550px); }
 
-        /* --- UI Elements --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 4rem;
-            display: flex;
-            gap: 2rem;
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            opacity: 0.3;
-        }
-
+        /* --- UI --- */
         .hint {
             position: fixed;
             bottom: 2rem;
@@ -163,59 +233,75 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-        }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
 
-        @media (max-width: 768px) {
-            .hub-container { transform: scale(0.6); }
-            .center-logo h1 { font-size: 2.5rem; }
+        @media (max-width: 1024px) {
+            .center-display { width: 80%; height: 250px; }
+            .hub-container { transform: scale(0.7); }
         }
     </style>
 </head>
 <body>
     <canvas id="particles"></canvas>
+    <div class="bg-glow"></div>
 
     <div class="portal-wrapper">
-        <div class="hub-container" id="hub">
-            <div class="center-logo">
-                <h1>MOMOPICO</h1>
-                <p>Digital Universe Portfolio</p>
+        <div class="center-display">
+            <div class="preview-window">
+                <img src="assets/momopico_core.png" class="default-visual" id="default-logo">
+                <img src="" class="preview-img" id="preview-img">
             </div>
+            <div class="center-text">
+                <h1 id="center-title">MOMOPICO</h1>
+                <p id="center-category">MASTER PORTFOLIO HUB</p>
+            </div>
+        </div>
 
+        <div class="hub-container" id="hub">
             <!-- Orbiting Projects -->
-            <a href="https://aetheris-lab.vercel.app" class="project-node node-1" target="_blank">
+            <a href="https://aetheris-lab.vercel.app" class="project-node node-1" target="_blank" 
+               data-hero="assets/aetheris_hero.png" data-title="AETHERIS" data-cat="AI Branding">
+                <img src="assets/aetheris_hero.png" class="node-thumb">
                 <div class="node-info">
                     <p>01. AI Branding</p>
                     <h3>AETHERIS</h3>
                 </div>
             </a>
-            <a href="https://lumiere-fragrance.vercel.app" class="project-node node-2" target="_blank">
+            <a href="https://lumiere-seoularoma.vercel.app" class="project-node node-2" target="_blank"
+               data-hero="assets/lumiere_hero.png" data-title="LUMIÈRE" data-cat="Lifestyle">
+                <img src="assets/lumiere_hero.png" class="node-thumb">
                 <div class="node-info">
                     <p>02. Lifestyle</p>
                     <h3>LUMIÈRE</h3>
                 </div>
             </a>
-            <a href="https://nexgen-agency.vercel.app" class="project-node node-3" target="_blank">
+            <a href="https://nexgenwebstudio.netlify.app" class="project-node node-3" target="_blank"
+               data-hero="assets/nexgen_hero.png" data-title="NEXGEN" data-cat="IT Creative">
+                <img src="assets/nexgen_hero.png" class="node-thumb">
                 <div class="node-info">
                     <p>03. IT Creative</p>
                     <h3>NEXGEN</h3>
                 </div>
             </a>
-            <a href="https://odyssey-architecture.vercel.app" class="project-node node-4" target="_blank">
+            <a href="https://odyssey-architecture.vercel.app" class="project-node node-4" target="_blank"
+               data-hero="assets/odyssey_hero.png" data-title="ODYSSEY" data-cat="Architecture">
+                <img src="assets/odyssey_hero.png" class="node-thumb">
                 <div class="node-info">
                     <p>04. Architecture</p>
                     <h3>ODYSSEY</h3>
                 </div>
             </a>
-            <a href="https://velvet-ray-beauty.vercel.app" class="project-node node-5" target="_blank">
+            <a href="https://velvet-ray-beauty.vercel.app" class="project-node node-5" target="_blank"
+               data-hero="assets/velvetray_hero.png" data-title="VELVET RAY" data-cat="K-Beauty">
+                <img src="assets/velvetray_hero.png" class="node-thumb">
                 <div class="node-info">
                     <p>05. K-Beauty</p>
                     <h3>VELVET RAY</h3>
                 </div>
             </a>
-            <a href="https://stayore.vercel.app" class="project-node node-6" target="_blank">
+            <a href="https://stayore.vercel.app" class="project-node node-6" target="_blank"
+               data-hero="assets/stayore_hero.png" data-title="STAY ORE" data-cat="Stay & Hospitality">
+                <img src="assets/stayore_hero.png" class="node-thumb">
                 <div class="node-info">
                     <p>06. Stay & Hospitality</p>
                     <h3>STAY ORE</h3>
@@ -224,72 +310,85 @@
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <span>STRATEGY</span>
-        <span>DESIGN</span>
-        <span>DEVELOPMENT</span>
-    </div>
-
-    <div class="hint">MOUSE MOVE TO ROTATE UNIVERSE</div>
+    <div class="hint">CLICK AND DRAG TO EXPLORE | HOVER TO PREVIEW</div>
 
     <script>
         const hub = document.getElementById('hub');
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
+        const previewImg = document.getElementById('preview-img');
+        const defaultLogo = document.getElementById('default-logo');
+        const centerTitle = document.getElementById('center-title');
+        const centerCat = document.getElementById('center-category');
+        const nodes = document.querySelectorAll('.project-node');
 
-        // --- 3D Rotation ---
-        let targetX = 0, targetY = 0;
-        let currentX = 0, currentY = 0;
+        // --- Drag to Rotate ---
+        let isDragging = false;
+        let startX, startY;
+        let rotateY = 0, rotateX = 0;
+        let targetRotateY = 0, targetRotateX = 0;
+        let autoRotate = 0.05;
 
-        document.addEventListener('mousemove', (e) => {
-            targetX = (e.clientX - window.innerWidth / 2) / 20;
-            targetY = (e.clientY - window.innerHeight / 2) / 20;
+        window.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX; startY = e.clientY; });
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+            targetRotateY += deltaX * 0.15;
+            targetRotateX -= deltaY * 0.15;
+            startX = e.clientX;
+            startY = e.clientY;
+        });
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        function updateRotation() {
+            if (!isDragging) targetRotateY += autoRotate;
+            rotateY += (targetRotateY - rotateY) * 0.08;
+            rotateX += (targetRotateX - rotateX) * 0.08;
+            hub.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            requestAnimationFrame(updateRotation);
+        }
+        updateRotation();
+
+        // --- Hover Preview Logic ---
+        nodes.forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                const hero = node.getAttribute('data-hero');
+                const title = node.getAttribute('data-title');
+                const cat = node.getAttribute('data-cat');
+                
+                previewImg.src = hero;
+                previewImg.classList.add('active');
+                defaultLogo.classList.add('hidden');
+                centerTitle.innerText = title;
+                centerCat.innerText = cat;
+            });
+            
+            node.addEventListener('mouseleave', () => {
+                // Keep the last hovered one or revert? Let's keep it for a richer feel.
+                // Or revert to default after some time.
+            });
         });
 
-        function animate() {
-            currentX += (targetX - currentX) * 0.05;
-            currentY += (targetY - currentY) * 0.05;
-            
-            hub.style.transform = `rotateY(${currentX}deg) rotateX(${-currentY}deg)`;
-            requestAnimationFrame(animate);
-        }
-        animate();
-
         // --- Particles ---
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
         const particles = [];
-        for(let i=0; i<150; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 1.5,
-                speedX: Math.random() * 0.2 - 0.1,
-                speedY: Math.random() * 0.2 - 0.1
-            });
+        for(let i=0; i<100; i++) {
+            particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.5, speedX: Math.random()*0.1-0.05, speedY: Math.random()*0.1-0.05 });
         }
-
         function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
             particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                p.x += p.speedX;
-                p.y += p.speedY;
+                ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+                p.x += p.speedX; p.y += p.speedY;
                 if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
                 if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
             });
             requestAnimationFrame(drawParticles);
         }
         drawParticles();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
     </script>
 </body>
 </html>
